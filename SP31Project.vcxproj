@@ -134,6 +134,7 @@
     <None Include="DirectXTex.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArcaeaSequence.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CookTorrance.cpp" />
     <ClCompile Include="DirectionalLighting.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Toon2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArcaeaSequence.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CookTorrance.h" />
     <ClInclude Include="debugPrintf.h" />
