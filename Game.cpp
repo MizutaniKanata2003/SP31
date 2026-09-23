@@ -16,11 +16,14 @@
 #include "DisneyPBR.h"
 #include "Toon1.h"
 #include "Toon2.h"
+#include "Mosaic.h"
+#include "RGBShift.h"
+#include "Horror.h"
 //===============================================
 //グローバル変数
 
 Camera		g_CameraObject;
-Sprite2D	g_Test2D;
+Horror		g_HorrorObject;
 
 Field3D	g_Field;
 //PolygonModel	g_Model;
@@ -59,7 +62,7 @@ void InitGame()
 	TextureInitialize( GetDevice() );
 	InitCamera();
 
-	g_Test2D.Init();
+	g_HorrorObject.Init();
 	g_Field.Init();
 	//g_Model.Init();
 	//g_VDL.Init();
@@ -89,7 +92,7 @@ void InitGame()
 void FinalizeGame()
 {
 	FinalizeCamera();
-	g_Test2D.Finalize();
+	g_HorrorObject.Finalize();
 
 	g_Field.Finalize();
 	//g_Model.Init();
@@ -116,7 +119,7 @@ void UpdateGame()
 	if ( GetPause() == false )//ポーズ中でなければ更新実行
 	{
 		UpdateCamera();
-		g_Test2D.Update();
+		g_HorrorObject.Update();
 
 		g_Field.Update();
 		//g_Model.Update();
@@ -169,6 +172,6 @@ void DrawGame()
 	Clear();
 	{
 		SetWorldViewProjection2D();
-		g_Test2D.Draw();
+		g_HorrorObject.Draw();
 	}
 }
