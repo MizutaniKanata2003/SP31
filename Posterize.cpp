@@ -41,15 +41,15 @@ void Posterize::Finalize( void )
 //=============================================================================
 void Posterize::Update( void )
 {
-	//ImGui::Begin( "Posterize" );
-	//{
-	//	ImGui::SliderFloat( "Gradation", &m_Parameter.x, 1.0f, 64.0f, " %.0f" );
-	//	ImGui::SliderFloat( "MIN", &m_Parameter.y, 0.0f, 1.0f, " %.4f" );
-	//	ImGui::SliderFloat( "MAX", &m_Parameter.z, 0.0f, 1.0f, " %.4f" );
-	//	ImGui::SliderFloat( "POW", &m_Parameter.w, 1.0f, 30.0f, " %.0f" );
+	ImGui::Begin( "Posterize" );
+	{
+		ImGui::SliderFloat( "Gradation", &m_Parameter.x, 1.0f, 64.0f, " %.0f" );
+		ImGui::SliderFloat( "MIN", &m_Parameter.y, 0.0f, 1.0f, " %.4f" );
+		ImGui::SliderFloat( "MAX", &m_Parameter.z, 0.0f, 1.0f, " %.4f" );
+		ImGui::SliderFloat( "POW", &m_Parameter.w, 1.0f, 30.0f, " %.0f" );
 
-	//}
-	//ImGui::End();
+	}
+	ImGui::End();
 }
 
 //=============================================================================

@@ -394,8 +394,11 @@ void Clear( void )
 	//デフォルトのバックバッファをセット
 	g_ImmediateContext->OMSetRenderTargets( 1, &g_RenderTargetView, g_DepthStencilView );
 
-	// バックバッファクリア色
-	float ClearColor[ 4 ] = { 0.5f, 0.0f, 0.0f, 1.0f };//純黒は避ける
+	// 修正前（赤色でクリアされている）
+	/*float ClearColor[ 4 ] = { 0.5f, 0.0f, 0.0f, 1.0f };*/ // または 赤系の色
+
+	// 修正後（黒色または濃紺でクリアする）
+	float ClearColor[ 4 ] = { 0.02f, 0.02f, 0.03f, 1.0f };
 	//バックバッファをクリア
 	g_ImmediateContext->ClearRenderTargetView( g_RenderTargetView, ClearColor );
 	//デプスステンシルバッファをクリア

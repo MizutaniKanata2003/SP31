@@ -26,7 +26,7 @@
 
 Camera		g_CameraObject;
 Posterize	g_PosterizeObject;
-ArcaeaSequence g_ArcaeaSequence;
+//ArcaeaSequence g_ArcaeaSequence;
 
 Field3D	g_Field;
 //PolygonModel	g_Model;
@@ -65,7 +65,7 @@ void InitGame()
 	TextureInitialize( GetDevice() );
 	InitCamera();
 
-	g_ArcaeaSequence.Init();
+	/*g_ArcaeaSequence.Init();*/
 	g_PosterizeObject.Init();
 	g_Field.Init();
 	//g_Model.Init();
@@ -79,7 +79,7 @@ void InitGame()
 	//g_CT.Init();
 	//g_DPBR.Init();
 	//g_TN.Init();
-	//g_TN2.Init();
+	g_TN2.Init();
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVector3Normalize( XMVectorSet( 0.0f, -1.0f, 0.0f, 0.0f ) );
@@ -96,7 +96,7 @@ void InitGame()
 void FinalizeGame()
 {
 	FinalizeCamera();
-	g_ArcaeaSequence.Finalize();
+	/*g_ArcaeaSequence.Finalize();*/
 	g_PosterizeObject.Finalize();
 
 	g_Field.Finalize();
@@ -111,7 +111,7 @@ void FinalizeGame()
 	//g_CT.Finalize();
 	//g_DPBR.Finalize();
 	//g_TN.Finalize();
-	//g_TN2.Finalize();
+	g_TN2.Finalize();
 
 	TextureFinalize();
 }
@@ -124,7 +124,7 @@ void UpdateGame()
 	if ( GetPause() == false )//ポーズ中でなければ更新実行
 	{
 		UpdateCamera();
-		g_ArcaeaSequence.Update();
+		/*g_ArcaeaSequence.Update();*/
 		g_PosterizeObject.Update();
 
 		g_Field.Update();
@@ -139,7 +139,7 @@ void UpdateGame()
 		//g_CT.Update();
 		//g_DPBR.Update();
 		//g_TN.Update();
-		//g_TN2.Update();
+		g_TN2.Update();
 
 	}
 	//ImGui::Begin( "SpotLighting" );
@@ -171,14 +171,13 @@ void DrawGame()
 		DrawCamera();
 
 		SetLight( g_Light );
-		/*	g_TN2.Draw();
-			g_Field.Draw();*/
+		g_TN2.Draw();
+		g_Field.Draw();
 	}
 
 	Clear();
 	{
 		SetWorldViewProjection2D();
-		/*g_PosterizeObject.Draw();*/
-		g_ArcaeaSequence.Draw();
+		g_PosterizeObject.Draw();
 	}
 }

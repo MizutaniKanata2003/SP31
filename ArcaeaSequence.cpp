@@ -107,37 +107,31 @@ void ArcaeaSequence::Draw( void )
 
 	XMFLOAT3 center = XMFLOAT3( (float)( SCREEN_WIDTH / 2 ), (float)( SCREEN_HEIGHT / 2 ), 0.0f );
 
-	// 1. 神殿背景クロスフェード（純白・白銀トーン）
-	float pillarAlpha = 0.0f;
-	if ( m_Timer >= 6.0f && m_Timer < 8.0f ) { pillarAlpha = ( m_Timer - 6.0f ) / 2.0f; }
-	else if ( m_Timer >= 8.0f && m_Timer < 14.0f ) { pillarAlpha = 1.0f; }
-	else if ( m_Timer >= 14.0f && m_Timer < 16.0f ) { pillarAlpha = 1.0f - ( ( m_Timer - 14.0f ) / 2.0f ); }
-	float floorAlpha = 1.0f - pillarAlpha;
+	// 0. 最背面神殿列柱（通常モード: mode = 0.0）
+	SetParameter( XMFLOAT4( 0.0f, m_Timer, 0.0f, 0.0f ) );
+	DrawQuad( m_TexPillarsID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( 1.05f, 1.05f ), 0.0f, XMFLOAT4( 0.65f, 0.67f, 0.7f, 1.0f ) );
 
-	// 神殿床面（円形マスクON）
-	SetParameter( XMFLOAT4( 1.0f, 0.0f, 0.0f, 0.0f ) );
+	// 1. 神殿床面（Mode 1: ルーン発光＆波紋パルス）
+	float floorAlpha = 1.0f;
+	if ( m_Timer >= 6.0f && m_Timer < 8.0f ) { floorAlpha = 1.0f - ( ( m_Timer - 6.0f ) / 2.0f ); }
+	else if ( m_Timer >= 8.0f && m_Timer < 14.0f ) { floorAlpha = 0.0f; }
+	else if ( m_Timer >= 14.0f && m_Timer < 16.0f ) { floorAlpha = ( m_Timer - 14.0f ) / 2.0f; }
+
 	if ( floorAlpha > 0.01f )
 	{
-		float floorZoom = 1.0f + ( m_Timer * 0.012f );
+		SetParameter( XMFLOAT4( 1.0f, m_Timer, 0.0f, 0.0f ) );
+		float floorZoom = 1.25f + ( m_Timer * 0.01f );
 		XMFLOAT4 floorCol = XMFLOAT4( m_LightPulse, m_LightPulse, m_LightPulse * 1.05f, floorAlpha );
-		DrawQuad( m_TexFloorID, center, XMFLOAT2( (float)SCREEN_HEIGHT, (float)SCREEN_HEIGHT ), XMFLOAT2( floorZoom, floorZoom ), m_FloorRot, floorCol );
+		DrawQuad( m_TexFloorID, center, XMFLOAT2( (float)SCREEN_HEIGHT * 1.3f, (float)SCREEN_HEIGHT * 1.3f ), XMFLOAT2( floorZoom, floorZoom ), m_FloorRot, floorCol );
 	}
 
-	// 神殿列柱背景（全画面）
-	SetParameter( XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ) );
-	if ( pillarAlpha > 0.01f )
-	{
-		XMFLOAT4 pillarCol = XMFLOAT4( m_LightPulse, m_LightPulse, m_LightPulse * 1.05f, pillarAlpha );
-		DrawQuad( m_TexPillarsID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( 1.05f, 1.05f ), 0.0f, pillarCol );
-	}
+	// 2. 魔法陣リング（Mode 1: 同心円ルーン発光）
+	SetParameter( XMFLOAT4( 1.0f, m_Timer, 0.0f, 0.0f ) );
+	float circleScale = 0.95f + sinf( m_Timer * 2.0f ) * 0.04f;
+	DrawQuad( m_TexMagicCircleID, center, XMFLOAT2( (float)SCREEN_HEIGHT * 1.0f, (float)SCREEN_HEIGHT * 1.0f ), XMFLOAT2( circleScale, circleScale ), m_CircleRot, XMFLOAT4( 1.0f, 0.98f, 0.9f, 0.9f ) );
 
-	// 2. 魔法陣リング（青白・シルバーの神聖光）
-	SetParameter( XMFLOAT4( 1.0f, 0.0f, 0.0f, 0.0f ) );
-	float circleScale = 0.9f + sinf( m_Timer * 2.0f ) * 0.04f;
-	DrawQuad( m_TexMagicCircleID, center, XMFLOAT2( (float)SCREEN_HEIGHT * 0.95f, (float)SCREEN_HEIGHT * 0.95f ), XMFLOAT2( circleScale, circleScale ), m_CircleRot, XMFLOAT4( 0.95f, 1.0f, 1.05f, 0.85f ) );
-
-	// 3. 2重交差の螺旋剣（外周・内周）
-	SetParameter( XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ) );
+	// 3. 2重交差の螺旋剣（Mode 2: ブレードリムライト＆閃光強調）
+	SetParameter( XMFLOAT4( 2.0f, m_Timer, 0.0f, 0.0f ) );
 	float swordAlpha = 0.0f;
 	if ( m_Timer >= 3.5f && m_Timer < 5.0f ) { swordAlpha = ( m_Timer - 3.5f ) / 1.5f; }
 	else if ( m_Timer >= 5.0f && m_Timer < 17.0f ) { swordAlpha = 1.0f; }
@@ -165,13 +159,15 @@ void ArcaeaSequence::Draw( void )
 		}
 	}
 
-	// 4. ガラス破片（青白くキラめく質感）
+	// 4. ガラス破片（Mode 3: 虹色プリズム分光＆エッジグリッター）
+	SetParameter( XMFLOAT4( 3.0f, m_Timer, 0.0f, 0.0f ) );
 	for ( int i = 0; i < SHARD_COUNT; ++i )
 	{
-		DrawQuad( m_TexShardsID, m_Shards[ i ].pos, m_Shards[ i ].size, XMFLOAT2( 1.0f, 1.0f ), m_Shards[ i ].rotate, XMFLOAT4( 0.95f, 1.0f, 1.05f, 0.85f ) );
+		DrawQuad( m_TexShardsID, m_Shards[ i ].pos, m_Shards[ i ].size, XMFLOAT2( 1.0f, 1.0f ), m_Shards[ i ].rotate, XMFLOAT4( 1.0f, 1.0f, 1.0f, 0.9f ) );
 	}
 
-	// 5. 放射グレア（中心からのクリアな白光）
+	// 5. 放射グレア（Mode 4: 中心光条ブルーム強調）
+	SetParameter( XMFLOAT4( 4.0f, m_Timer, 0.0f, 0.0f ) );
 	float glareScale = 1.25f + sinf( m_Timer * 5.0f ) * 0.12f;
-	DrawQuad( m_TexGlareID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( glareScale, glareScale ), -m_FloorRot * 1.8f, XMFLOAT4( 0.98f, 1.0f, 1.05f, 0.65f ) );
+	DrawQuad( m_TexGlareID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( glareScale, glareScale ), -m_FloorRot * 1.8f, XMFLOAT4( 1.0f, 1.0f, 1.05f, 0.75f ) );
 }
