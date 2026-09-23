@@ -19,11 +19,12 @@
 #include "Mosaic.h"
 #include "RGBShift.h"
 #include "Horror.h"
+#include "Posterize.h"
 //===============================================
 //グローバル変数
 
 Camera		g_CameraObject;
-Horror		g_HorrorObject;
+Posterize	g_PosterizeObject;
 
 Field3D	g_Field;
 //PolygonModel	g_Model;
@@ -62,7 +63,7 @@ void InitGame()
 	TextureInitialize( GetDevice() );
 	InitCamera();
 
-	g_HorrorObject.Init();
+	g_PosterizeObject.Init();
 	g_Field.Init();
 	//g_Model.Init();
 	//g_VDL.Init();
@@ -92,7 +93,7 @@ void InitGame()
 void FinalizeGame()
 {
 	FinalizeCamera();
-	g_HorrorObject.Finalize();
+	g_PosterizeObject.Finalize();
 
 	g_Field.Finalize();
 	//g_Model.Init();
@@ -119,7 +120,7 @@ void UpdateGame()
 	if ( GetPause() == false )//ポーズ中でなければ更新実行
 	{
 		UpdateCamera();
-		g_HorrorObject.Update();
+		g_PosterizeObject.Update();
 
 		g_Field.Update();
 		//g_Model.Update();
@@ -172,6 +173,6 @@ void DrawGame()
 	Clear();
 	{
 		SetWorldViewProjection2D();
-		g_HorrorObject.Draw();
+		g_PosterizeObject.Draw();
 	}
 }
