@@ -171,8 +171,8 @@ void DrawGame()
 		DrawCamera();
 
 		SetLight( g_Light );
-		g_TN2.Draw();
-		g_Field.Draw();
+		/*	g_TN2.Draw();
+			g_Field.Draw();*/
 	}
 
 	Clear();
