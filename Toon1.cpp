@@ -81,14 +81,14 @@ void Toon::Update( void )
 		m_Rotate.x -= 60.0f * ( 1.0f / 60.0f );
 	}
 
-	ImGui::SetNextWindowSize( ImVec2( 300, 500 ), ImGuiCond_FirstUseEver );
-	ImGui::Begin( "Toon" );
-	{
-		ImGui::SliderFloat( "Level-1", &m_Parameter.x, 0.0f, 1.0f, "Åì.2f" );
-		ImGui::SliderFloat( "Level-2", &m_Parameter.y, 0.0f, 1.0f, "Åì.2f" );
-		ImGui::SliderFloat( "Edge", &m_Parameter.z, 0.0f, -0.6f, "Åì.2f" );
-	}
-	ImGui::End();
+	//ImGui::SetNextWindowSize( ImVec2( 300, 500 ), ImGuiCond_FirstUseEver );
+	//ImGui::Begin( "Toon" );
+	//{
+	//	ImGui::SliderFloat( "Level-1", &m_Parameter.x, 0.0f, 1.0f, "Åì.2f" );
+	//	ImGui::SliderFloat( "Level-2", &m_Parameter.y, 0.0f, 1.0f, "Åì.2f" );
+	//	ImGui::SliderFloat( "Edge", &m_Parameter.z, 0.0f, -0.6f, "Åì.2f" );
+	//}
+	//ImGui::End();
 
 }
 

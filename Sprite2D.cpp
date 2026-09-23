@@ -11,8 +11,8 @@ HRESULT Sprite2D::Init( void )
 	m_TexID = TextureLoad( L"asset\\texture\\Toon2.png" );
 
 	//シェーダー読み込み
-	CreateVertexShader( &m_VertexShader, &m_VertexLayout, "UnlitTextureVS.cso" );
-	CreatePixelShader( &m_PixelShader, "UnlitTexturePS.cso" );
+	CreateVertexShader( &m_VertexShader, &m_VertexLayout, "ZukeiVS.cso" );
+	CreatePixelShader( &m_PixelShader, "ZukeiPS.cso" );
 
 	//2Dオブジェクト初期化
 	m_Position = XMFLOAT3( SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f );
@@ -20,7 +20,7 @@ HRESULT Sprite2D::Init( void )
 	m_Scale = XMFLOAT2( 1.0f, 1.0f );
 	m_Size = XMFLOAT2( SCREEN_WIDTH, SCREEN_HEIGHT );
 	m_Rotate = 0.0f;
-	m_Parameter = XMFLOAT4( 0, 0, 0, 0 );
+	m_Parameter = XMFLOAT4( 0.3f, 0.05f, 0, 0 );
 
 	return S_OK;
 }
@@ -40,10 +40,12 @@ void Sprite2D::Finalize( void )
 //=============================================================================
 void Sprite2D::Update( void )
 {
-	ImGui::Begin( "MIPMAP" );
+	ImGui::Begin( "ZUKEI" );
 	{
-		ImGui::SliderFloat( "MipMap Level", &m_Parameter.x, 0.0f, 7.0f, "%.0f" );
-
+		ImGui::SliderFloat( "Parameter.x", &m_Parameter.x, 0.0f, 1.0f, "%.4f" );
+		ImGui::SliderFloat( "Parameter.y", &m_Parameter.y, 0.0f, 1.0f, "%.4f" );
+		ImGui::SliderFloat( "Parameter.z", &m_Parameter.z, 0.0f, 1.0f, "%.4f" );
+		ImGui::SliderFloat( "Parameter.w", &m_Parameter.w, 0.0f, 1.0f, "%.4f" );
 	}
 	ImGui::End();
 }

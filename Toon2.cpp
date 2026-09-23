@@ -81,12 +81,12 @@ void Toon2::Update( void )
 		m_Rotate.x -= 60.0f * ( 1.0f / 60.0f );
 	}
 
-	ImGui::SetNextWindowSize( ImVec2( 300, 500 ), ImGuiCond_FirstUseEver );
-	ImGui::Begin( "Toon2" );
-	{
-		ImGui::SliderFloat( "TextureV", &m_Parameter.x, 0.0f, 1.0f, "％.2f" );;
-	}
-	ImGui::End();
+	//ImGui::SetNextWindowSize( ImVec2( 300, 500 ), ImGuiCond_FirstUseEver );
+	//ImGui::Begin( "Toon2" );
+	//{
+	//	ImGui::SliderFloat( "TextureV", &m_Parameter.x, 0.0f, 1.0f, "％.2f" );;
+	//}
+	//ImGui::End();
 
 	m_Parameter.y += 0.006f;
 }
