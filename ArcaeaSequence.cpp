@@ -51,7 +51,7 @@ void ArcaeaSequence::Update( void )
 	m_FloorRot += 0.35f;
 	m_CircleRot -= 0.75f;
 
-	m_LightPulse = 0.9f + sinf( m_Timer * 6.0f ) * 0.1f;
+	m_LightPulse = 0.92f + sinf( m_Timer * 5.0f ) * 0.08f;
 
 	for ( int i = 0; i < SHARD_COUNT; ++i )
 	{
@@ -107,36 +107,36 @@ void ArcaeaSequence::Draw( void )
 
 	XMFLOAT3 center = XMFLOAT3( (float)( SCREEN_WIDTH / 2 ), (float)( SCREEN_HEIGHT / 2 ), 0.0f );
 
-	// 1. 神殿背景クロスフェード
+	// 1. 神殿背景クロスフェード（純白・白銀トーン）
 	float pillarAlpha = 0.0f;
 	if ( m_Timer >= 6.0f && m_Timer < 8.0f ) { pillarAlpha = ( m_Timer - 6.0f ) / 2.0f; }
 	else if ( m_Timer >= 8.0f && m_Timer < 14.0f ) { pillarAlpha = 1.0f; }
 	else if ( m_Timer >= 14.0f && m_Timer < 16.0f ) { pillarAlpha = 1.0f - ( ( m_Timer - 14.0f ) / 2.0f ); }
 	float floorAlpha = 1.0f - pillarAlpha;
 
-	// 神殿床面（円形マスクON: Parameter.x = 1.0f でフチをぼかす）
+	// 神殿床面（円形マスクON）
 	SetParameter( XMFLOAT4( 1.0f, 0.0f, 0.0f, 0.0f ) );
 	if ( floorAlpha > 0.01f )
 	{
-		float floorZoom = 1.0f + ( m_Timer * 0.015f );
-		XMFLOAT4 floorCol = XMFLOAT4( m_LightPulse, m_LightPulse, m_LightPulse, floorAlpha );
+		float floorZoom = 1.0f + ( m_Timer * 0.012f );
+		XMFLOAT4 floorCol = XMFLOAT4( m_LightPulse, m_LightPulse, m_LightPulse * 1.05f, floorAlpha );
 		DrawQuad( m_TexFloorID, center, XMFLOAT2( (float)SCREEN_HEIGHT, (float)SCREEN_HEIGHT ), XMFLOAT2( floorZoom, floorZoom ), m_FloorRot, floorCol );
 	}
 
-	// 神殿列柱背景（全画面: Parameter.x = 0.0f）
+	// 神殿列柱背景（全画面）
 	SetParameter( XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ) );
 	if ( pillarAlpha > 0.01f )
 	{
-		XMFLOAT4 pillarCol = XMFLOAT4( m_LightPulse, m_LightPulse, m_LightPulse, pillarAlpha );
+		XMFLOAT4 pillarCol = XMFLOAT4( m_LightPulse, m_LightPulse, m_LightPulse * 1.05f, pillarAlpha );
 		DrawQuad( m_TexPillarsID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( 1.05f, 1.05f ), 0.0f, pillarCol );
 	}
 
-	// 2. 魔法陣リング（円形マスクON）
+	// 2. 魔法陣リング（青白・シルバーの神聖光）
 	SetParameter( XMFLOAT4( 1.0f, 0.0f, 0.0f, 0.0f ) );
 	float circleScale = 0.9f + sinf( m_Timer * 2.0f ) * 0.04f;
-	DrawQuad( m_TexMagicCircleID, center, XMFLOAT2( (float)SCREEN_HEIGHT * 0.95f, (float)SCREEN_HEIGHT * 0.95f ), XMFLOAT2( circleScale, circleScale ), m_CircleRot, XMFLOAT4( 1.0f, 0.98f, 0.9f, 0.85f ) );
+	DrawQuad( m_TexMagicCircleID, center, XMFLOAT2( (float)SCREEN_HEIGHT * 0.95f, (float)SCREEN_HEIGHT * 0.95f ), XMFLOAT2( circleScale, circleScale ), m_CircleRot, XMFLOAT4( 0.95f, 1.0f, 1.05f, 0.85f ) );
 
-	// 3. 2重交差の螺旋剣（通常マスク: Parameter.x = 0.0f）
+	// 3. 2重交差の螺旋剣（外周・内周）
 	SetParameter( XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ) );
 	float swordAlpha = 0.0f;
 	if ( m_Timer >= 3.5f && m_Timer < 5.0f ) { swordAlpha = ( m_Timer - 3.5f ) / 1.5f; }
@@ -152,7 +152,7 @@ void ArcaeaSequence::Draw( void )
 			if ( r < 90.0f ) r = 90.0f;
 			float x = center.x + cosf( angle ) * r;
 			float y = center.y + sinf( angle ) * r;
-			DrawQuad( m_TexSwordID, XMFLOAT3( x, y, 0.0f ), XMFLOAT2( 70.0f, 280.0f ), XMFLOAT2( 0.6f, 0.6f ), XMConvertToDegrees( angle ) + 90.0f, XMFLOAT4( 1.0f, 1.0f, 1.0f, swordAlpha ) );
+			DrawQuad( m_TexSwordID, XMFLOAT3( x, y, 0.0f ), XMFLOAT2( 70.0f, 280.0f ), XMFLOAT2( 0.6f, 0.6f ), XMConvertToDegrees( angle ) + 90.0f, XMFLOAT4( 1.0f, 1.0f, 1.05f, swordAlpha ) );
 		}
 		for ( int i = 0; i < 16; ++i )
 		{
@@ -161,22 +161,17 @@ void ArcaeaSequence::Draw( void )
 			if ( r < 50.0f ) r = 50.0f;
 			float x = center.x + cosf( angle ) * r;
 			float y = center.y + sinf( angle ) * r;
-			DrawQuad( m_TexSwordID, XMFLOAT3( x, y, 0.0f ), XMFLOAT2( 55.0f, 220.0f ), XMFLOAT2( 0.5f, 0.5f ), XMConvertToDegrees( angle ) + 90.0f, XMFLOAT4( 0.95f, 0.95f, 1.0f, swordAlpha * 0.85f ) );
+			DrawQuad( m_TexSwordID, XMFLOAT3( x, y, 0.0f ), XMFLOAT2( 55.0f, 220.0f ), XMFLOAT2( 0.5f, 0.5f ), XMConvertToDegrees( angle ) + 90.0f, XMFLOAT4( 0.95f, 0.98f, 1.05f, swordAlpha * 0.85f ) );
 		}
 	}
 
-	// 4. ガラス破片
+	// 4. ガラス破片（青白くキラめく質感）
 	for ( int i = 0; i < SHARD_COUNT; ++i )
 	{
-		DrawQuad( m_TexShardsID, m_Shards[ i ].pos, m_Shards[ i ].size, XMFLOAT2( 1.0f, 1.0f ), m_Shards[ i ].rotate, XMFLOAT4( 1.0f, 1.0f, 1.0f, 0.85f ) );
+		DrawQuad( m_TexShardsID, m_Shards[ i ].pos, m_Shards[ i ].size, XMFLOAT2( 1.0f, 1.0f ), m_Shards[ i ].rotate, XMFLOAT4( 0.95f, 1.0f, 1.05f, 0.85f ) );
 	}
 
-	// 5. 放射グレア＆スペクトル光条
+	// 5. 放射グレア（中心からのクリアな白光）
 	float glareScale = 1.25f + sinf( m_Timer * 5.0f ) * 0.12f;
-	DrawQuad( m_TexGlareID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( glareScale, glareScale ), -m_FloorRot * 1.8f, XMFLOAT4( 1.0f, 0.98f, 0.95f, 0.7f ) );
-
-	if ( m_Timer >= 2.0f && m_Timer <= 11.0f )
-	{
-		DrawQuad( m_TexSpectrumID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( 1.0f, 1.0f ), 0.0f, XMFLOAT4( 1.0f, 1.0f, 1.0f, 0.85f ) );
-	}
+	DrawQuad( m_TexGlareID, center, XMFLOAT2( (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT ), XMFLOAT2( glareScale, glareScale ), -m_FloorRot * 1.8f, XMFLOAT4( 0.98f, 1.0f, 1.05f, 0.65f ) );
 }
