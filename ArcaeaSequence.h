@@ -19,6 +19,7 @@ private:
 	};
 
 	int m_TexFloorID;
+	int m_TexMagicCircleID;
 	int m_TexSwordID;
 	int m_TexShardsID;
 	int m_TexPillarsID;
@@ -29,10 +30,12 @@ private:
 	ID3D11PixelShader* m_PixelShader;
 	ID3D11InputLayout* m_VertexLayout;
 
-	ShardData m_Shards[ SHARD_COUNT ];
+	ShardData m_Shards[ SWORD_COUNT ];
 	float m_Timer;
 	float m_FloorRot;
+	float m_CircleRot;
 	float m_SwordConvergence;
+	float m_LightPulse;
 
 	void DrawQuad( int texID, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT2 scale, float rot, XMFLOAT4 color );
 
