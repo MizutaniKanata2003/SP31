@@ -1,4 +1,4 @@
-#include "Horror.h"
+#include "Posterize.h"
 #include "sprite.h"
 #include "Camera.h"
 #include "texture.h"
@@ -6,11 +6,13 @@
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT Horror::Init( void )
+HRESULT Posterize::Init( void )
 {
 	//シェーダー読み込み
-	CreateVertexShader( &m_VertexShader, &m_VertexLayout, "HorrorVS.cso" );
-	CreatePixelShader( &m_PixelShader, "HorrorPS.cso" );
+	CreateVertexShader( &m_VertexShader, &m_VertexLayout, "PosterizeVS.cso" );
+	CreatePixelShader( &m_PixelShader, "PosterizePS.cso" );
+
+	m_TexID = TextureLoad( L"asset\\texture\\test.png" );
 
 	//2Dオブジェクト初期化
 	m_Position = XMFLOAT3( SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f );
@@ -19,14 +21,14 @@ HRESULT Horror::Init( void )
 	m_Size = XMFLOAT2( SCREEN_WIDTH, SCREEN_HEIGHT );
 	m_Rotate = 0.0f;
 
-	m_Parameter = XMFLOAT4( 0.0f, 0.2f, 0.7f, 1.0f );
+	m_Parameter = XMFLOAT4( 64.0f, 0.2f, 0.7f, 1.0f );
 	return S_OK;
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void Horror::Finalize( void )
+void Posterize::Finalize( void )
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -37,17 +39,13 @@ void Horror::Finalize( void )
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Horror::Update( void )
+void Posterize::Update( void )
 {
-	m_Parameter.x += ( (float)rand() / RAND_MAX );
-	if ( m_Parameter.x > 100.0f )
+	ImGui::Begin( "Posterize" );
 	{
-		m_Parameter.x -= 100.0f;
-	}
-	ImGui::Begin( "Horror" );
-	{
-		ImGui::SliderFloat( "MIN", &m_Parameter.y, 0.0f, 1.0f, " %.3f" );
-		ImGui::SliderFloat( "MAX", &m_Parameter.z, 0.0f, 1.0f, " %.3f" );
+		ImGui::SliderFloat( "Gradation", &m_Parameter.x, 1.0f, 64.0f, " %.0f" );
+		ImGui::SliderFloat( "MIN", &m_Parameter.y, 0.0f, 1.0f, " %.4f" );
+		ImGui::SliderFloat( "MAX", &m_Parameter.z, 0.0f, 1.0f, " %.4f" );
 		ImGui::SliderFloat( "POW", &m_Parameter.w, 1.0f, 30.0f, " %.0f" );
 
 	}
@@ -57,7 +55,7 @@ void Horror::Update( void )
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Horror::Draw( void )
+void Posterize::Draw( void )
 {
 	SetParameter( m_Parameter );
 	// 頂点レイアウト設定
@@ -79,7 +77,7 @@ void Horror::Draw( void )
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetPeTexture();
+		ID3D11ShaderResourceView* tex = GetTexture( m_TexID );
 		GetDeviceContext()->PSSetShaderResources( 0, 1, &tex );
 
 		//平行移動行列の作成（表示座標を決める）
