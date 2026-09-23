@@ -375,5 +375,8 @@
     <FxCompile Include="shader\PosterizePS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
+    <FxCompile Include="shader\ArcaeaPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
