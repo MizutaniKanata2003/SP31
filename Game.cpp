@@ -21,6 +21,7 @@
 #include "Horror.h"
 #include "Posterize.h"
 #include "ArcaeaSequence.h"
+#include "StealthModel.h"
 //===============================================
 //グローバル変数
 
@@ -41,6 +42,7 @@ CookTorrance				g_CT;
 DisneyPBR					g_DPBR;
 Toon						g_TN;
 Toon2						g_TN2;
+StealthModel				g_StealthModel;
 static LIGHT 		g_Light;
 //ポーズフラグ
 static	bool	pause = false;
@@ -79,7 +81,8 @@ void InitGame()
 	//g_CT.Init();
 	//g_DPBR.Init();
 	//g_TN.Init();
-	g_TN2.Init();
+	//g_TN2.Init();
+	g_StealthModel.Init();
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVector3Normalize( XMVectorSet( 0.0f, -1.0f, 0.0f, 0.0f ) );
@@ -111,7 +114,8 @@ void FinalizeGame()
 	//g_CT.Finalize();
 	//g_DPBR.Finalize();
 	//g_TN.Finalize();
-	g_TN2.Finalize();
+	//g_TN2.Finalize();
+	g_StealthModel.Finalize();
 
 	TextureFinalize();
 }
@@ -139,8 +143,8 @@ void UpdateGame()
 		//g_CT.Update();
 		//g_DPBR.Update();
 		//g_TN.Update();
-		g_TN2.Update();
-
+		//g_TN2.Update();
+		g_StealthModel.Update();
 	}
 	//ImGui::Begin( "SpotLighting" );
 	//{
@@ -165,19 +169,26 @@ void UpdateGame()
 //ゲームシーン描画
 void DrawGame()
 {
+	// レンダリングテクスチャの背景描画
 	BeginPe();
+	// 3D描画
 	{
 		SetDepthEnable( true );
 		DrawCamera();
-
 		SetLight( g_Light );
-		g_TN2.Draw();
+
 		g_Field.Draw();
 	}
-
 	Clear();
+	// 2D描画
 	{
 		SetWorldViewProjection2D();
 		g_PosterizeObject.Draw();
+	}
+	// 最後にステルス用モデルを描く
+	{
+		SetDepthEnable( true );
+		DrawCamera();
+		g_StealthModel.Draw();
 	}
 }

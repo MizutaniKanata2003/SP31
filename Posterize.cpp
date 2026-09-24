@@ -77,7 +77,8 @@ void Posterize::Draw( void )
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture( m_TexID );
+		/*ID3D11ShaderResourceView* tex = GetTexture( m_TexID );*/
+		ID3D11ShaderResourceView* tex = GetPeTexture();
 		GetDeviceContext()->PSSetShaderResources( 0, 1, &tex );
 
 		//平行移動行列の作成（表示座標を決める）

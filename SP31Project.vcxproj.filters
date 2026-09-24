@@ -137,6 +137,9 @@
     <ClCompile Include="ArcaeaSequence.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="StealthModel.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite2D.h">
@@ -251,6 +254,9 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="ArcaeaSequence.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="StealthModel.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>
@@ -376,6 +382,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\ArcaeaPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\StealthVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\StealthPS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
