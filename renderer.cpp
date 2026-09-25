@@ -12,7 +12,7 @@
 //*********************************************************
 // 定数
 //*********************************************************
-#define RT_MAX (1) //レンダリングテクスチャの枚数
+#define RT_MAX (2) //レンダリングテクスチャの枚数
 
 //*****************************************************************************
 // グローバル変数:
@@ -28,6 +28,7 @@ ID3D11DepthStencilView* g_DepthStencilView = NULL;
 ID3D11RenderTargetView* g_PeRenderTargetView[ RT_MAX ];
 ID3D11ShaderResourceView* g_PeShaderResourceView[ RT_MAX ];
 ID3D11Texture2D* ppTexture[ RT_MAX ];
+ID3D11Buffer* g_WeightBuffer = NULL;
 
 ID3D11VertexShader* g_VertexShader = NULL;
 ID3D11PixelShader* g_PixelShader = NULL;
@@ -463,4 +464,9 @@ void CreatePixelShader( ID3D11PixelShader** PixelShader, const char* FileName )
 void SetLight( LIGHT Light )
 {
 	g_ImmediateContext->UpdateSubresource( g_LightBuffer, 0, NULL, &Light, 0, 0 );
+}
+
+void SetWeight( float* weight )
+{
+	g_ImmediateContext->UpdateSubresource( g_WeightBuffer, 0, NULL, &weight[ 0 ], 0, 0 );
 }

@@ -74,3 +74,5 @@ void CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11InputLayout** 
 void CreatePixelShader( ID3D11PixelShader** PixelShader, const char* FileName );
 
 void SetLight( LIGHT Light );
+
+void SetWeight( float* weight );
